@@ -282,7 +282,7 @@ struct Rect {
 };
 
 static std::ostream &operator<<(std::ostream &os, const Rect &l) {
-    // TODO: write this code
+    // (Done)TODO: write this code
     os << "Rect(" << l.topLeft << ", " << l.width << ", " << l.height << ")";
     return os;
 }
