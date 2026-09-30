@@ -9,67 +9,71 @@ namespace CMPUT350 {
 struct Point2D {
     float x, y;
     Point2D(float x = 0, float y = 0) : x(x), y(y) {}
-    double Distance(const Point2D &other) const {
-        //(DONE) TODO: write this code 
+    double Distance(const Point2D& other) const {
+        //(DONE) TODO: write this code
         float dx = other.x - x;
         float dy = other.y - y;
-        return std::sqrt(dx*dx + dy*dy);
+        return std::sqrt(dx * dx + dy * dy);
     }
-    Point2D operator+(const Point2D &other) const {
-        //(DONE) TODO: write this code 
+    Point2D operator+(const Point2D& other) const {
+        //(DONE) TODO: write this code
         return Point2D(x + other.x, y + other.y);
     }
-    Point2D operator+(const float &other) const {
-        //(DONE) TODO: write this code 
-        return Point2D(x + other, y + other);   //here other is a single float 
+    Point2D operator+(const float& other) const {
+        //(DONE) TODO: write this code
+        return Point2D(x + other, y + other);  // here other is a single float
     }
-    Point2D operator-(const Point2D &other) const {
+    Point2D operator-(const Point2D& other) const {
         //(DONE) TODO: write this code
         return Point2D(x - other.x, y - other.y);
     }
-    Point2D operator-(const float &other) const {
+    Point2D operator-(const float& other) const {
         //(DONE) TODO: write this code
         return Point2D(x - other, y - other);
     }
-    Point2D operator*(const float &scalar) const {
+    Point2D operator*(const float& scalar) const {
         //(DONE) TODO: write this code
         return Point2D(x * scalar, y * scalar);
-    } 
-    Point2D &operator+=(const float &scalar) {  //Point2D& means the function returns the same existing Point2D object, not a copy. so x = x + scalar, y = y + scalar, and then return the same object.
+    }
+    Point2D& operator+=(
+        const float& scalar) {  // Point2D& means the function returns the same existing Point2D
+                                // object, not a copy. so x = x + scalar, y = y + scalar, and then
+                                // return the same object.
         // (DONE) TODO: write this code
         x += scalar;
         y += scalar;
         return *this;
     }
-    Point2D &operator+=(const Point2D &other) {
+    Point2D& operator+=(const Point2D& other) {
         // (DONE) TODO: write this code
         x += other.x;
         y += other.y;
         return *this;
     }
-    Point2D &operator-=(const Point2D &other) {
+    Point2D& operator-=(const Point2D& other) {
         // (DONE) TODO: write this code
         x -= other.x;
         y -= other.y;
         return *this;
     }
-    bool operator==(const Point2D &other) const {
+    bool operator==(const Point2D& other) const {
         // (DONE) TODO: write this code
         return (x == other.x && y == other.y);
     }
-    Point2D &operator*=(const int &scalar) {
+    Point2D& operator*=(const int& scalar) {
         // (DONE) TODO: write this code
         x *= scalar;
         y *= scalar;
         return *this;
     }
-    Point2D &operator/=(const int &scalar) {
+    Point2D& operator/=(const int& scalar) {
         // (DONE) TODO: write this code
         x /= scalar;
         y /= scalar;
         return *this;
     }
-    float operator*(const Point2D &other) const {  //dot product of two vectors, returns a scalar value`
+    float operator*(
+        const Point2D& other) const {  // dot product of two vectors, returns a scalar value`
         // (DONE) TODO: write this code
         return x * other.x + y * other.y;
     }
@@ -95,13 +99,13 @@ struct Point2D {
     }
 };
 
-static std::ostream &operator<<(std::ostream &os, const Point2D &p) {
+static std::ostream& operator<<(std::ostream& os, const Point2D& p) {
     // (DONE) TODO: write this code
     os << "(" << p.x << ", " << p.y << ")";
     return os;
 }
 
-static Point2D operator*(float number, const Point2D &rhs) {
+static Point2D operator*(float number, const Point2D& rhs) {
     // (DONE) TODO: write this code
     return Point2D(number * rhs.x, number * rhs.y);
 }
@@ -115,31 +119,31 @@ struct Line {
         // (DONE) TODO: write this code
         return p1.Distance(p2);
     }
-    Point2D ClosestPoint(const Point2D &p) const {
+    Point2D ClosestPoint(const Point2D& p) const {
         // (DONE) TODO: write this code
         Point2D direction = p2 - p1;
         float lengthSquared = direction * direction;  // dot product of direction with itself
 
-        //p1 and p2 are the same point, so return p1
+        // p1 and p2 are the same point, so return p1
         if (lengthSquared == 0) {
-            return p1; 
+            return p1;
         }
-        float t = ((p - p1) * direction) / lengthSquared;  //dot product of (p - p1) and direction, divided by lengthSquared
-        
-        //Closest point would be before p1
+        float t = ((p - p1) * direction) /
+                  lengthSquared;  // dot product of (p - p1) and direction, divided by lengthSquared
+
+        // Closest point would be before p1
         if (t < 0) {
             return p1;
         }
-        //Closest point would be after p2
+        // Closest point would be after p2
         if (t > 1) {
             return p2;
         }
 
-        return p1 + direction * t;  //Closest point is on the line segment
+        return p1 + direction * t;  // Closest point is on the line segment
     }
 
-
-    bool Crosses(Line other, Point2D &crossingPoint) const {
+    bool Crosses(Line other, Point2D& crossingPoint) const {
         // (DONE) TODO: write this code
         Point2D r = p2 - p1;
         Point2D s = other.p2 - other.p1;
@@ -156,9 +160,7 @@ struct Line {
         float t = Point2D::Cross(diff, s) / denominator;
         float u = Point2D::Cross(diff, r) / denominator;
 
-        if (t >= 0 && t <= 1 
-            && u >= 0 && u <= 1) {
-
+        if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
             crossingPoint = p1 + r * t;
             return true;
         }
@@ -167,7 +169,7 @@ struct Line {
     }
 };
 
-static std::ostream &operator<<(std::ostream &os, const Line &l) {
+static std::ostream& operator<<(std::ostream& os, const Line& l) {
     // TODO: write this code
     os << "Line(" << l.p1 << ", " << l.p2 << ")";
     return os;
@@ -200,7 +202,7 @@ struct Rect {
     Rect(Point2D center, float radius)
         : topLeft(center.x - radius, center.y - radius), width(2 * radius), height(2 * radius) {}
 
-    Rect &operator|=(const Rect &other) {
+    Rect& operator|=(const Rect& other) {
         //(Done) TODO: write this code
         float left = std::min(topLeft.x, other.topLeft.x);
         float top = std::min(topLeft.y, other.topLeft.y);
@@ -214,7 +216,7 @@ struct Rect {
 
         return *this;
     }
-    Rect &operator|=(const Point2D &other) {
+    Rect& operator|=(const Point2D& other) {
         //(Done) TODO: write this code
         float left = std::min(topLeft.x, other.x);
         float top = std::min(topLeft.y, other.y);
@@ -227,18 +229,17 @@ struct Rect {
 
         return *this;
     }
-    Rect &operator|=(const Line &other) {
+    Rect& operator|=(const Line& other) {
         //(Done) TODO: write this code
         *this |= other.p1;
         *this |= other.p2;
 
         return *this;
     }
-    Rect &operator&=(const Rect &other) {
+    Rect& operator&=(const Rect& other) {
         //(Done) TODO: write this code
         float left = std::max(topLeft.x, other.topLeft.x);
         float top = std::max(topLeft.y, other.topLeft.y);
-
 
         float right = std::min(topLeft.x + width, other.topLeft.x + other.width);
         float bottom = std::min(topLeft.y + height, other.topLeft.y + other.height);
@@ -255,12 +256,12 @@ struct Rect {
         }
         return *this;
     }
-    Rect &operator+=(const Point2D &other) {
+    Rect& operator+=(const Point2D& other) {
         //(Done) TODO: write this code
         topLeft += other;
         return *this;
     }
-    Rect operator+(const Point2D &other) const {
+    Rect operator+(const Point2D& other) const {
         //(Done) TODO: write this code
         Rect result = *this;
         result += other;
@@ -274,14 +275,21 @@ struct Rect {
         width -= 2 * inset;
         height -= 2 * inset;
     }
-    bool IsInside(const Point2D &p) const {
+    bool IsInside(const Point2D& p) const {
         //(Done) TODO: write this code
-        return p.x >= topLeft.x && p.x < topLeft.x + width && 
-               p.y >= topLeft.y && p.y < topLeft.y + height;
+        return p.x >= topLeft.x && p.x < topLeft.x + width && p.y >= topLeft.y &&
+               p.y < topLeft.y + height;
+    }
+
+    bool overlaps(const Rect& other) const {
+        bool notOverlap =
+            topLeft.x > other.topLeft.x + other.width || topLeft.x + width < other.topLeft.x ||
+            topLeft.y > other.topLeft.y + other.height || topLeft.y + height < other.topLeft.y;
+        return !notOverlap;
     }
 };
 
-static std::ostream &operator<<(std::ostream &os, const Rect &l) {
+static std::ostream& operator<<(std::ostream& os, const Rect& l) {
     // (Done)TODO: write this code
     os << "Rect(" << l.topLeft << ", " << l.width << ", " << l.height << ")";
     return os;
