@@ -11,6 +11,7 @@ else ()
             SYSTEM
     )
     set(SFML_USE_SYSTEM_DEPS OFF)
+    set(FT_DISABLE_HARFBUZZ TRUE CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(SFML)
 endif ()
 
