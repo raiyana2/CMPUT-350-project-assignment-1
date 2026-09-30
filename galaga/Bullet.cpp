@@ -1,56 +1,55 @@
 #include "Bullet.h"
 
+#include "Enemy.h"
+
 Bullet::Bullet(CMPUT350::Point2D location, CMPUT350::Point2D heading, bool player)
-{
-}
+    : mLocation(location),
+      mPreviousLocation(location),
+      mHeading(heading),
+      mBounds(location, location),
+      mPlayerBullet(player) {}
 
-bool Bullet::IsPlayerBullet()
-{
+bool Bullet::IsPlayerBullet() {
     // TODO: Update
-    return true;
+    return mPlayerBullet;
 }
 
-void Bullet::Initialize(CMPUT350::GameContext* context)
-{
+void Bullet::Initialize(CMPUT350::GameContext* context) {}
+
+void Bullet::Update(CMPUT350::GameContext* context) {
+    auto height = context->ScreenContext->GetWindowHeight();
+    auto width = context->ScreenContext->GetWindowWidth();
+
+    if (mLocation.x < 0 || mLocation.x > width || mLocation.y < 0 || mLocation.y > height) {
+        Kill();
+    } else {
+        mPreviousLocation = mLocation;
+        mLocation += mHeading;
+        mBounds = CMPUT350::Rect(mLocation, mLocation);
+    }
 }
 
-void Bullet::Update(CMPUT350::GameContext* context)
-{
+void Bullet::LateUpdate(CMPUT350::GameContext* context) {}
+
+bool Bullet::HandleKeyEvent(CMPUT350::GameContext* context, char key) {}
+
+void Bullet::RenderBackground(CMPUT350::GameContext* context) {}
+
+void Bullet::RenderForeground(CMPUT350::GameContext* context) {
+    CMPUT350::Rect bulletRect(mLocation.x, mLocation.y, mHeading.x, mHeading.y);
+
+    context->ScreenContext->DrawRect(bulletRect, CMPUT350::Colors::yellow);
 }
 
-void Bullet::LateUpdate(CMPUT350::GameContext* context)
-{
+void Bullet::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj) {
+    auto enemy = std::dynamic_pointer_cast<Enemy>(obj);
+
+    if (enemy && mPlayerBullet) {
+        Kill();
+    }
 }
 
-bool Bullet::HandleKeyEvent(CMPUT350::GameContext* context, char key)
-{
-}
-
-void Bullet::RenderBackground(CMPUT350::GameContext* context)
-{
-}
-
-void Bullet::RenderForeground(CMPUT350::GameContext* context)
-{
-}
-
-void Bullet::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj)
-{
-}
-
-void Bullet::Kill()
-{
-}
-
-bool Bullet::IsAlive() const
-{
+const CMPUT350::Rect& Bullet::GetBounds() {
     // TODO: Update code
-    return true;
-}
-
-const CMPUT350::Rect& Bullet::GetBounds()
-{
-    // TODO: Update code
-    static CMPUT350::Rect sBounds(0, 0, 0, 0);
-    return sBounds;
+    return mBounds;
 }
