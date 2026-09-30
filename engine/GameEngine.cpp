@@ -10,6 +10,10 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
     //	{
     //		fprintf(stderr, "WARNING: Font did not load.\n");
     //	}
+
+    mWindow = std::make_shared<sf::RenderWindow>(sf::VideoMode(width, height), name);
+
+    mWindow->setFramerateLimit(30); // Limit the framerate to 30 frames per second  
 }
 
 GameEngine::~GameEngine() {
@@ -26,7 +30,7 @@ void GameEngine::AddGameObject(std::shared_ptr<GameObject> gameObject) {}
  * all objects have been destroyed.
  */
 void GameEngine::Run() {
-    while (true)  // window is open
+    while (mWindow->isOpen())  // window is open
     {
         // 0. Remove any objects that are now dead
 
