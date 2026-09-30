@@ -10,7 +10,7 @@ Bullet::Bullet(CMPUT350::Point2D location, CMPUT350::Point2D heading, bool playe
       mPlayerBullet(player) {}
 
 bool Bullet::IsPlayerBullet() {
-    // TODO: Update
+    // (done) TODO: Update
     return mPlayerBullet;
 }
 

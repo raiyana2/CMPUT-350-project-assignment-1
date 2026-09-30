@@ -68,6 +68,13 @@ struct Point2D {
     }
     Point2D& operator/=(const int& scalar) {
         // (DONE) TODO: write this code
+
+        if (scalar == 0) {
+            std::cerr << "Division by zero is not allowed.\n";
+            x = 0;
+            y = 0;
+            return *this;
+        }
         x /= scalar;
         y /= scalar;
         return *this;
@@ -245,10 +252,14 @@ struct Rect {
         float bottom = std::min(topLeft.y + height, other.topLeft.y + other.height);
 
         if (right < left || bottom < top) {
-            // No intersection, set to empty rectangle
+            // No intersection
+
+            //Prof said "To help you think this through, we need to represent a null rectangle. If our rectangles were open, then having a 0 height/width would be fine. But, we aren't using open rectangles.
+            // So, we need another option. One option is to allow negative heights/widths to represent null rectangles. This is one option. A second option is to use NAN or ±INF. These have slightly different semantics
+
             topLeft = Point2D(0, 0);
-            width = 0;
-            height = 0;
+            width = -1;
+            height = -1;
         } else {
             topLeft = Point2D(left, top);
             width = right - left;
