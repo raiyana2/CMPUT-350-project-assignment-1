@@ -16,12 +16,15 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
     mFont = std::make_shared<sf::Font>();
 
     // Sample font loading code
-    //	if (!mFont->openFromMemory(&_font, _font_len))
-    //	{
-    //		fprintf(stderr, "WARNING: Font did not load.\n");
-    //	}
 
-    mWindow = std::make_shared<sf::RenderWindow>(sf::VideoMode(width, height), name);
+    mWindow = std::make_shared<sf::RenderWindow>(sf::VideoMode({width, height}), name);
+
+    mFont = std::make_shared<sf::Font>();
+    
+	if (!mFont->openFromMemory(&_font, _font_len))
+    	{
+    		fprintf(stderr, "WARNING: Font did not load.\n");
+    	}
 
     mWindow->setFramerateLimit(30); // Limit the framerate to 30 frames per second  
 }
@@ -46,7 +49,10 @@ void GameEngine::AddGameObject(std::shared_ptr<GameObject> gameObject) {
  * all objects have been destroyed.
  */
 void GameEngine::Run() {
+    DrawContext drawContext(mWindow, mFont);
+
     GameContext context;
+    
     context.mEngineView = this;
     context.ScreenContext = &drawContext;  
 
@@ -137,7 +143,7 @@ void GameEngine::Run() {
         }
 
         // Clear window
-        window->clear();
+        mWindow->clear();
 
         // 6. Render background
         for (const auto& object : mGameObjects) {

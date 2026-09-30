@@ -10,6 +10,8 @@ class GameEngine;
 #include "GameObject.h"
 #include "MathUtil.h"
 #include <SFML/Graphics.hpp>
+#include <vector>
+#include <memory>
 
 namespace CMPUT350 {
 

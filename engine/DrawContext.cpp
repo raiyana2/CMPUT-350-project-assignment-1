@@ -12,7 +12,8 @@ void DrawContext::DrawCenteredText(const std::string &text, int pixelSize, Point
     sf::FloatRect bounds = drawable.getLocalBounds();
 
     // Center the text by adjusting its position
-    drawable.setOrigin(bounds.width / 2, bounds.height / 2);
+    drawable.setOrigin(sf::Vector2f(bounds.position.x + bounds.size.x / 2.0f, bounds.position.y + bounds.size.y / 2.0f));
+    
     drawable.setPosition(sf::Vector2f(p.x, p.y));
 
     drawable.setFillColor(sf::Color(c.r, c.g, c.b));
@@ -106,7 +107,9 @@ void DrawContext::DrawLine(Point2D from, Point2D to, float width, RGBColor c) {
     lineShape.setPoint(1, sf::Vector2f(p2.x, p2.y));
     lineShape.setPoint(2, sf::Vector2f(p3.x, p3.y));
     lineShape.setPoint(3, sf::Vector2f(p4.x, p4.y));
+
     lineShape.setFillColor(sf::Color(c.r, c.g, c.b));
+    
     mWindow->draw(lineShape);
 }
 
