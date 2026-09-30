@@ -7,6 +7,8 @@ namespace CMPUT350 {
 
 class GameContext;
 
+
+//Graphics object is a GameObject that can be rendered
 class GraphicsObject : public GameObject {
 public:
     virtual void RenderBackground(GameContext *context);

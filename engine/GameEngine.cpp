@@ -1,6 +1,8 @@
 #include "GameEngine.h"
 #include "GameContext.h"
 #include "CollisionObject.h"
+#include "DrawContext.h"
+#include "GraphicsObject.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -14,11 +16,17 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
     mFont = std::make_shared<sf::Font>();
 
     // Sample font loading code
-    if (!mFont->openFromMemory(&_font, _font_len)) {
-        fprintf(stderr, "WARNING: Font did not load.\n");
-    }
 
-    mWindow->setFramerateLimit(30);
+    mWindow = std::make_shared<sf::RenderWindow>(sf::VideoMode({width, height}), name);
+
+    mFont = std::make_shared<sf::Font>();
+    
+	if (!mFont->openFromMemory(&_font, _font_len))
+    	{
+    		fprintf(stderr, "WARNING: Font did not load.\n");
+    	}
+
+    mWindow->setFramerateLimit(30); // Limit the framerate to 30 frames per second  
 }
 
 GameEngine::~GameEngine() {
@@ -41,9 +49,12 @@ void GameEngine::AddGameObject(std::shared_ptr<GameObject> gameObject) {
  * all objects have been destroyed.
  */
 void GameEngine::Run() {
+    DrawContext drawContext(mWindow, mFont);
+
     GameContext context;
+    
     context.mEngineView = this;
-    context.ScreenContext = nullptr;  // Set this to actual DrawContext
+    context.ScreenContext = &drawContext;  
 
     while (mWindow->isOpen())  // window is open
     {
@@ -132,12 +143,26 @@ void GameEngine::Run() {
         }
 
         // Clear window
+        mWindow->clear();
 
         // 6. Render background
+        for (const auto& object : mGameObjects) {
+            auto graphicsObject = std::dynamic_pointer_cast<GraphicsObject>(object);
+            if (graphicsObject) {
+                graphicsObject->RenderBackground(&context);
+            }
+        }
 
         // 7. Render foreground
+        for (const auto& object : mGameObjects) {
+            auto graphicsObject = std::dynamic_pointer_cast<GraphicsObject>(object);
+            if (graphicsObject) {
+                graphicsObject->RenderForeground(&context);
+            }
+        }
 
         // Actually render to window
+        mWindow->display();
     }
 }
 
