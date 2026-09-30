@@ -23,7 +23,13 @@ void Enemy::RenderForeground(CMPUT350::GameContext* context) {
     context->ScreenContext->DrawRect(enemyRect, CMPUT350::Colors::green);
 }
 
-void Enemy::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj) {}
+void Enemy::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj) {
+    auto bullet = std::dynamic_pointer_cast<Bullet>(obj);
+
+    if (bullet && bullet->IsPlayerBullet()) {
+        Kill();
+    }
+}
 
 void Enemy::Kill() { mAlive = false; }
 

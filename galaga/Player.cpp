@@ -1,53 +1,79 @@
-#include <cassert>
 #include "Player.h"
+
+#include <cassert>
+
 #include "Bullet.h"
 
 Player::Player(CMPUT350::Point2D loc)
-{
+    : mLocation(loc), mBounds(loc.x - 20.f, loc.y - 20.f, 40.f, 40.f) {
     // TODO: Update code
 }
 
-void Player::Initialize(CMPUT350::GameContext* context)
-{
+void Player::Initialize(CMPUT350::GameContext* context) {}
+
+void Player::Update(CMPUT350::GameContext* context) {}
+
+void Player::LateUpdate(CMPUT350::GameContext* context) {}
+
+bool Player::HandleKeyEvent(CMPUT350::GameContext* context, char key) {
+    const float moveAmount = 10.0f;
+    const float halfWidth = mBounds.width / 2.0f;
+    const float screenWidth = static_cast<float>(context->ScreenContext->GetWindowWidth());
+
+    bool playerMoved = false;
+    if (key == 'a') {
+        playerMoved = true;
+        mLocation.x -= moveAmount;
+
+        if (mLocation.x < halfWidth) {
+            mLocation.x = halfWidth;
+        }
+    } else if (key == 'd') {
+        playerMoved = true;
+        mLocation.x += moveAmount;
+
+        if (mLocation.x > screenWidth - halfWidth) {
+            mLocation.x = screenWidth - halfWidth;
+        }
+    } else if (key == ' ') {
+        if (!mBulletOne.expired() && !mBulletTwo.expired()) {
+                return true;
+            }
+
+        auto bullet = std::make_shared<Bullet>(
+            CMPUT350::Point2D(mLocation.x, mLocation.y - 20.0f),
+            CMPUT350::Point2D(0.0f, -15.0f),
+            true
+        );
+
+        context->mEngineView->AddGameObject(bullet);
+
+        if (mBulletOne.expired()) {
+            mBulletOne = bullet;
+        } else {
+            mBulletTwo = bullet;
+        }
+
+        return true;
+    }
+
+    if (playerMoved) {
+        mBounds = CMPUT350::Rect(mLocation.x - 20.0f, mLocation.y - 20.0f, 40.0f, 40.0f);
+        return true;
+    }
+
+    return false;
 }
 
-void Player::Update(CMPUT350::GameContext* context)
-{
+void Player::RenderBackground(CMPUT350::GameContext* context) {}
+
+void Player::RenderForeground(CMPUT350::GameContext* context) {
+    context->ScreenContext->DrawRect(mBounds, CMPUT350::Colors::blue);
 }
 
-void Player::LateUpdate(CMPUT350::GameContext* context)
-{
-}
+void Player::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj) {}
 
-bool Player::HandleKeyEvent(CMPUT350::GameContext* context, char key)
-{
-}
-
-void Player::RenderBackground(CMPUT350::GameContext* context)
-{
-}
-
-void Player::RenderForeground(CMPUT350::GameContext* context)
-{
-}
-
-void Player::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj)
-{
-}
-
-void Player::Kill()
-{
-}
-
-bool Player::IsAlive() const
-{
+const CMPUT350::Rect& Player::GetBounds() {
     // TODO: Update code
-    return true;
-}
-
-const CMPUT350::Rect& Player::GetBounds()
-{
-    // TODO: Update code
-    static CMPUT350::Rect sBounds(0, 0, 0, 0);
-    return sBounds;
+    return mBounds;
 }
