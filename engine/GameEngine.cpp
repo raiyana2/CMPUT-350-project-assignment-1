@@ -15,12 +15,7 @@ GameEngine::GameEngine(unsigned int width, unsigned int height, const std::strin
     mWindow = std::make_shared<sf::RenderWindow>(sf::VideoMode({width, height}), name);
     mFont = std::make_shared<sf::Font>();
 
-    // Sample font loading code
-
-    mWindow = std::make_shared<sf::RenderWindow>(sf::VideoMode({width, height}), name);
-
-    mFont = std::make_shared<sf::Font>();
-    
+    // Sample font loading code    
 	if (!mFont->openFromMemory(&_font, _font_len))
     	{
     		fprintf(stderr, "WARNING: Font did not load.\n");
@@ -165,24 +160,4 @@ void GameEngine::Run() {
         mWindow->display();
     }
 }
-
-// Sample code for processing events
-
-// bool GameEngine::ProcessEvents(GameContext *context)
-//{
-//	while (const std::optional event = mWindow->pollEvent())
-//	{
-//		if (event->is<sf::Event::Closed>())
-//		{
-//		}
-//		else if (event->is<sf::Event::Resized>())
-//		{
-//		}
-//		else if (const auto* keyPressed = event->getIf<sf::Event::TextEntered>())
-//		{
-//			// use keyPressed->unicode to get character
-//		}
-//	}
-// }
-
 }  // namespace CMPUT350

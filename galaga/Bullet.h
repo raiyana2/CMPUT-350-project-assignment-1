@@ -15,8 +15,6 @@ public:
     void Update(CMPUT350::GameContext* context) override;
     void LateUpdate(CMPUT350::GameContext* context) override;
     bool HandleKeyEvent(CMPUT350::GameContext* context, char key) override;
-    bool IsAlive() const override;
-    void Kill() override;
 
     // Graphics Object Functions
     void RenderBackground(CMPUT350::GameContext* context) override;
@@ -25,5 +23,12 @@ public:
     // Collision Object Functions
     void CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj) override;
     const CMPUT350::Rect& GetBounds() override;
+
+private:
+    CMPUT350::Point2D mLocation;
+    CMPUT350::Point2D mPreviousLocation;
+    CMPUT350::Point2D mHeading;
+    CMPUT350::Rect mBounds;
+    bool mPlayerBullet;
 };
 #endif // BULLET_H
