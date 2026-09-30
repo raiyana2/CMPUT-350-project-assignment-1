@@ -1,6 +1,8 @@
 #include "GameEngine.h"
 #include "GameContext.h"
 #include "CollisionObject.h"
+#include "DrawContext.h"
+#include "GraphicsObject.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -46,7 +48,7 @@ void GameEngine::AddGameObject(std::shared_ptr<GameObject> gameObject) {
 void GameEngine::Run() {
     GameContext context;
     context.mEngineView = this;
-    context.ScreenContext = nullptr;  // Set this to actual DrawContext
+    context.ScreenContext = &drawContext;  
 
     while (mWindow->isOpen())  // window is open
     {
@@ -135,12 +137,26 @@ void GameEngine::Run() {
         }
 
         // Clear window
+        window->clear();
 
         // 6. Render background
+        for (const auto& object : mGameObjects) {
+            auto graphicsObject = std::dynamic_pointer_cast<GraphicsObject>(object);
+            if (graphicsObject) {
+                graphicsObject->RenderBackground(&context);
+            }
+        }
 
         // 7. Render foreground
+        for (const auto& object : mGameObjects) {
+            auto graphicsObject = std::dynamic_pointer_cast<GraphicsObject>(object);
+            if (graphicsObject) {
+                graphicsObject->RenderForeground(&context);
+            }
+        }
 
         // Actually render to window
+        mWindow->display();
     }
 }
 
