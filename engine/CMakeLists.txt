@@ -11,8 +11,10 @@ else ()
             SYSTEM
     )
     set(SFML_USE_SYSTEM_DEPS OFF)
-    set(FT_DISABLE_HARFBUZZ TRUE CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(SFML)
+    if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        target_link_libraries(freetype PRIVATE harfbuzz)
+    endif ()    
 endif ()
 
 file(GLOB ENGINE CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
