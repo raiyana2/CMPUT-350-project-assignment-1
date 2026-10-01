@@ -3,7 +3,7 @@
 #include "Bullet.h"
 
 Enemy::Enemy(CMPUT350::Point2D loc)
-    : mLoc(loc), mAlive(true), mBounds(loc.x - 20, loc.y - 20, 40, 40) {
+    : mLoc(loc), mBounds(loc.x - 20, loc.y - 20, 40, 40) {
     // TODO: Update code
 }
 
@@ -31,12 +31,12 @@ void Enemy::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj
     }
 }
 
-void Enemy::Kill() { mAlive = false; }
+// void Enemy::Kill() { mAlive = false; }
 
-bool Enemy::IsAlive() const {
-    // (done)TODO: Update code
-    return mAlive;
-}
+// bool Enemy::IsAlive() const {
+//     // (done)TODO: Update code
+//     return mAlive;
+// }
 
 const CMPUT350::Rect& Enemy::GetBounds() {
     // (done)TODO: Update code
