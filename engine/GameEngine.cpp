@@ -84,11 +84,15 @@ void GameEngine::Run() {
             } else if (const auto* keyPressed = event->getIf<sf::Event::TextEntered>()) {
                 char key = keyPressed->unicode;
 
-                for (const auto& object : mGameObjects) {
-                    if (object) {
-                        object->HandleKeyEvent(&context, key);
+                if (key <= 127) {  // Only handle ASCII characters
+                    for (const auto& object : mGameObjects) {
+                        if (object) {
+                            object->HandleKeyEvent(&context, key);
+                        }
                     }
                 }
+
+
             }
         }
 

@@ -351,7 +351,7 @@ struct Rect {
      * @param w Width; defaults to zero.
      * @param h Height; defaults to zero.
      */
-    Rect(Point2D tl = {0, 0}, int w = 0, int h = 0) : topLeft(tl), width(w), height(h) {}
+    Rect(Point2D tl = {0, 0}, float w = 0, float h = 0) : topLeft(tl), width(w), height(h) {}
 
     /** Creates the smallest axis-aligned rectangle containing two points.
      * @param p1 First point.
