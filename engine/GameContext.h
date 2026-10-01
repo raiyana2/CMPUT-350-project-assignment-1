@@ -9,7 +9,10 @@ namespace CMPUT350 {
 
 class GameContext {
 public:
+    /** Engine interface used by game objects to add objects during callbacks. */
     EngineView *mEngineView;
+
+    /** Drawing interface for the current render window. */
     DrawContext *ScreenContext;
 };
 
