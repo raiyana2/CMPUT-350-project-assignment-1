@@ -19,7 +19,15 @@ class DrawContext;
 
 class GameEngine : public EngineView {
 public:
+    /** Creates a window and initializes the engine resources.
+     * @param width Window width in pixels.
+     * @param height Window height in pixels.
+     * @param name Window title.
+     */
     GameEngine(unsigned int width, unsigned int height, const std::string& name);
+
+    /** Closes the window if it is still open and releases engine resources.
+     */
     ~GameEngine();
 
     GameEngine(const GameEngine&) = delete;             // Prevent copy-construction
@@ -27,8 +35,15 @@ public:
     GameEngine& operator=(const GameEngine&) = delete;  // Prevent assignment
     GameEngine& operator=(GameEngine&&) = delete;       // Prevent move-assignment
 
+    /** Queues a non-null object to be initialized and activated on the next frame.
+     * @param gameObject Object to add; null pointers are ignored.
+     * @return No value.
+     */
     void AddGameObject(std::shared_ptr<GameObject> gameObject) override;
 
+    /** Runs the event, update, collision, and rendering loop until the window closes.
+     * @return No value.
+     */
     void Run();
 
 private:

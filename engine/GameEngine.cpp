@@ -37,11 +37,12 @@ void GameEngine::AddGameObject(std::shared_ptr<GameObject> gameObject) {
     }
 }
 
-/**
- * @method Run
- * @arguments None
- * @description Gives control to the game engine. Will not return until the game window is closed or
- * all objects have been destroyed.
+/** Runs one frame at a time until the render window closes.
+ * Each frame removes dead objects, activates queued objects, dispatches input,
+ * updates active objects, reports overlapping collision pairs to both objects,
+ * runs late updates, then renders background and foreground content. Objects
+ * queued during a frame are initialized at the beginning of the next frame.
+ * The loop does not stop merely because no game objects remain.
  */
 void GameEngine::Run() {
     DrawContext drawContext(mWindow, mFont);

@@ -8,10 +8,19 @@ namespace CMPUT350 {
 class GameContext;
 
 
-//Graphics object is a GameObject that can be rendered
+/** A game object with background and foreground rendering callbacks. */
 class GraphicsObject : public GameObject {
 public:
+    /** Renders content behind foreground objects; the base implementation does nothing.
+     * @param context Engine and drawing services for this callback.
+     * @return No value.
+     */
     virtual void RenderBackground(GameContext *context);
+
+    /** Renders foreground content; the base implementation does nothing.
+     * @param context Engine and drawing services for this callback.
+     * @return No value.
+     */
     virtual void RenderForeground(GameContext *context);
 };
 
