@@ -31,12 +31,6 @@ void Enemy::CollisionEnter(const std::shared_ptr<CMPUT350::CollisionObject>& obj
     }
 }
 
-// void Enemy::Kill() { mAlive = false; }
-
-// bool Enemy::IsAlive() const {
-//     // (done)TODO: Update code
-//     return mAlive;
-// }
 
 const CMPUT350::Rect& Enemy::GetBounds() {
     // (done)TODO: Update code

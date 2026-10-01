@@ -14,8 +14,7 @@ public:
     void Update(CMPUT350::GameContext* context) override;
     void LateUpdate(CMPUT350::GameContext* context) override;
     bool HandleKeyEvent(CMPUT350::GameContext* context, char key) override;
-    // bool IsAlive() const override;
-    // void Kill() override;
+
 
     // Graphics Object Functions
     void RenderBackground(CMPUT350::GameContext* context) override;
@@ -28,7 +27,6 @@ public:
 
 private:
     CMPUT350::Point2D mLoc;
-    // bool mAlive = true;
     CMPUT350::Rect mBounds;
 };
 
